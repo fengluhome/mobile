@@ -45,18 +45,20 @@
             <h2>订餐</h2>
         </div>
         <div data-role="content">
-            <label for="basic">选人</label>
-            <input type="text" name="name" id="inputUsername" value="" readonly="true" />
-            <a id="btnUsername" href="#userPage" data-role="button">选人</a>
+            <form action="#" method="post">
+                <label for="basic">选人</label>
+                <input type="text" name="name" id="inputUsername" value="" readonly="true" />
+                <a id="btnUsername" href="#userPage" data-role="button">选人</a>
 
-            <label for="basic">餐厅</label>
-            <input type="text" name="name" id="inputRestaurant" value="" readonly="true" />
-            <a href="#restaurantsPage" id="btnRestaurant" data-role="button">选餐厅</a>
+                <label for="basic">餐厅</label>
+                <input type="text" name="name" id="inputRestaurant" value="" readonly="true" />
+                <a href="#restaurantsPage" id="btnRestaurant" data-role="button">选餐厅</a>
 
-            <label for="basic">套餐</label>
-            <input type="text" name="name" id="inputFoods" value="" readonly="true" />
-            <a href="#foodsPage" id="btnFoods" data-role="button">选套餐</a>
-            <a href="#index" data-role="button" id="reservePageOK">确认</a>
+                <label for="basic">套餐</label>
+                <input type="text" name="name" id="inputFoods" value="" readonly="true" />
+                <a href="#foodsPage" id="btnFoods" data-role="button">选套餐</a>
+                <a href="#index" data-role="button" id="reservePageOK">确认</a>
+            </form>
         </div>
     </div>
 
@@ -111,5 +113,14 @@
             <h4 id="identsfooter"></h4>
         </div>
     </div>
+    <!--订单显示  -->
+    <div data-role="page" id="messagePage">
+        <div data-role="content">
+        </div>
+        <div data-role="footer">
+            <a id="messagePageOK" href="javascript:void(0)" data-role="button">确定</a>
+        </div>
+    </div>
+
 </body>
 </html>

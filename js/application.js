@@ -1,112 +1,32 @@
 ﻿/// <reference path="../lib/jquery.js" />
-var foods = {
-    "KFC": [
-        {
-            "name": "田园脆鸡堡",
-            "price": 10.00
-        },
-        {
-            "name": "黄金咖喱猪扒饭",
-            "price": 23.50
-        },
-        {
-            "name": "意式肉酱肉丸饭",
-            "price": 16.00
-        },
-        {
-            "name": "老北京鸡肉卷",
-            "price": 14.00
-        },
-        {
-            "name": "劲脆鸡腿堡",
-            "price": 15.00
-        }
-    ],
-    "7-11": [
-        {
-            "name": "全素",
-            "price": 9.00
-        },
-        {
-            "name": "半素半荤",
-            "price": 11.50
-        },
-        {
-            "name": "全荤",
-            "price": 13.00
-        }
-    ],
-    "成都小吃": [
-        {
-            "name": "西红柿鸡蛋盖饭",
-            "price": 10.00
-        },
-        {
-            "name": "木须肉盖饭",
-            "price": 10.00
-        },
-        {
-            "name": "尖椒肉丝盖饭",
-            "price": 12.00
-        },
-        {
-            "name": "京酱肉丝盖饭",
-            "price": 12.00
-        },
-        {
-            "name": "地三鲜盖饭",
-            "price": 9.00
-        }
-    ]
 
-}
-
-var users = [
-    {
-        "name": "赵大"
-    },
-    {
-        "name": "钱二"
-    },
-    {
-        "name": "张三"
-    },
-    {
-        "name": "李四"
-    },
-    {
-        "name": "王五"
-    },
-    {
-        "name": "刘六"
-    }
-]
-var restaurants = [
-    {
-        "name": "KFC"
-    },
-    {
-        "name": "7-11"
-    },
-    {
-        "name": "成都小吃"
-    }
-]
 window.indents = [];  //单据
 Array.prototype.Contains = function (variable) {
     return this.toString().indexOf(variable) > -1;
 }
+window.oneFunction = function (fn) {/// <summary>执行一次执行函数</summary>
+    var one = true;
+    return function () {
+        if (one) {
+            fn();
+        }
+        one = false;
+
+    }
+
+}
+
+
 /// <summary>首页</summary>
 window.indexPage = {
     init: function () {
-
         $("#btnIndents").click(function () {
             indentsPage.toHtml();
         });
         $("#btnReserve").click(function () {
-
             reservePage.init();
         });
+
     }
 
 }
@@ -115,11 +35,12 @@ window.reservePage = {
     add: function (obj) {
         indents.push(obj);
     },
+    one: true,
     indent: null,
     refresh: function () {
-        $("#inputUsername").val(this.indent.name);
-        $("#inputRestaurant").val(this.indent.restaurant);
-        $("#inputFoods").val(this.indent.food);
+        document.getElementById("inputUsername").value = this.indent.name;
+        document.getElementById("inputRestaurant").value = this.indent.restaurant;
+        document.getElementById("inputFoods").value = this.indent.food;
     },
 
     init: function () {
@@ -130,34 +51,36 @@ window.reservePage = {
             price: ""
         }
         this.refresh();
-        $("#btnUsername").click(function () { /// <summary>选择人</summary>
-            userPage.ToHtml(users);
-        });
-        $("#btnRestaurant").click(function () { /// <summary>选择餐厅</summary>
-            restaurantPage.ToHtml(restaurants);
-        });
-        $("#btnFoods").click(function () {
-            var restaurantText = $("#inputRestaurant").val();
-            if (restaurantText === "") return false;
-            foodsPage.ToHtml(foods[restaurantText]);
-        });
-        $("#reservePageOK").click(function () {  /// <summary>确认套餐</summary>
-            var usernameText = reservePage.indent.name;
-            restaurantText = reservePage.indent.restaurant;
-            foodText = reservePage.indent.food,
-            price = reservePage.indent.price;
-            if (usernameText !== "" && restaurantText !== "" && foodText !== "" && price !== "") {
-                reservePage.add(reservePage.indent);
-                alert("订餐成功");
-            } else {
+        if (this.one) {
+            $("#btnUsername").click(function () { /// <summary>选择人</summary>
+                userPage.ToHtml(users);
+            });
+            $("#btnRestaurant").click(function () { /// <summary>选择餐厅</summary>
+                restaurantPage.ToHtml(restaurants);
+            });
+            $("#btnFoods").click(function () {
+                var restaurantText = document.getElementById("inputRestaurant").value;
+                if (restaurantText === "") return false;
+                foodsPage.ToHtml(foods[restaurantText]);
+            });
 
-                return false;
-            }
+            $("#reservePageOK").click(function () {  /// <summary>确认套餐</summary>
+                var usernameText = reservePage.indent.name;
+                restaurantText = reservePage.indent.restaurant;
+                foodText = reservePage.indent.food,
+                price = reservePage.indent.price;
+                if (usernameText !== "" && restaurantText !== "" && foodText !== "" && price !== "") {
+                    reservePage.add(reservePage.indent);
+                    return true;
+                } else {
+                    return false;
+                }
 
-        });
+            });
+            this.one = false;
+        }
 
     }
-
 }
 
 /// <summary>用户列表页面</summary>
@@ -190,25 +113,25 @@ window.restaurantPage = {
     click: function (dom) {
         reservePage.indent.restaurant = dom.innerText;
         reservePage.refresh();
-
-
         return true;
     }
 }
 
 /// <summary>选择套餐页面</summary>
 window.foodsPage = {
+    foods: [],
     ToHtml: function (obj) {
         var str = "";
         for (var i = 0; i < obj.length; i++) {
-            obj.id = i;
-            str += " <li><a onclick='foodsPage.click(this)' href='#reservePage'>" + obj[i].name + "</a><span class='ui-li-count price'>&yen;" + obj[i].price + "</span></li>";
+            this.foods["" + obj[i].name + ""] = obj[i];
+            str += " <li><a id='" + obj[i].name + "' onclick='foodsPage.click(this)' href='#reservePage'>" + obj[i].name + "</a><span class='ui-li-count price'>&yen;" + obj[i].price + "</span></li>";
         }
         $("#foodList").html(str).listview('refresh');
     },
     click: function (dom) {
-        reservePage.indent.food = dom.innerText;
-        reservePage.indent.price = dom.nextSibling.innerText;
+        var food = this.foods["" + dom.id + ""];
+        reservePage.indent.food = food.name;
+        reservePage.indent.price = food.price;
         reservePage.refresh();
         return true;
     }
@@ -227,10 +150,10 @@ window.indentsPage = {
     },
     toHtml: function () {
         var _useArr = this.useArr(), totalmoney = 0;
-
         var str = " <li data-role='list-divider'>" + _useArr.length + "人已定</li>";
         for (var i = 0; i < indents.length; i++) {
-            str += "<li><h3><a href='#'>" + indents[i].name + "</a></h3><p>" + indents[i].restaurant + "&nbsp;&nbsp;&nbsp;" + indents[i].food + "</p><p class='ui-li-aside'><strong>" + indents[i].price + "</strong></p></li>";
+            var prieceRed = parseFloat(indents[i].price) > 12 ? "style='color:red;'" : "";
+            str += "<li><h3><a href='#'>" + indents[i].name + "</a></h3><p>" + indents[i].restaurant + "&nbsp;&nbsp;&nbsp;" + indents[i].food + "</p><p class='ui-li-aside' " + prieceRed + "><strong>&yen;" + indents[i].price + "</strong></p></li>";
             totalmoney += parseFloat(indents[i].price);
         }
         str += " <li data-role='list-divider'>" + (users.length - _useArr.length) + "人未定</li>";
@@ -242,20 +165,11 @@ window.indentsPage = {
 
         $("#indentsList").html(str).listview('refresh');
         $("#identsfooter").html(_useArr.length + "人已定" + (users.length - _useArr.length) + "人已定,总共" + totalmoney + "元");
-
     }
-
-
 }
-
-
-
-
 
 $(function () {
     indexPage.init();
-
-
 });
 
 
