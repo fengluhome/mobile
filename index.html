@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>订餐</title>
+    <link rel="stylesheet" href="lib/jquery.mobile-1.2.0/jquery.mobile-1.2.0.min.css" />
+
+    <script src="lib/jquery.js"></script>
+    <script src="lib/jquery.mobile-1.2.0/jquery.mobile-1.2.0.min.js"></script>
+
+    <script src='data/foods.json' type='text/javascript'></script>
+    <script src='data/restaurants.json' type='text/javascript'></script>
+    <script src='data/users.json' type='text/javascript'></script>
+
+    <script src="js/application.js"></script>
+
+    <style type="text/css">
+        .price {
+            border: 0;
+            background: none;
+        }
+    </style>
+</head>
+<body>
+    <!--首页 -->
+    <div data-role="page" id="index">
+        <div data-role="header">
+            <h1>订餐</h1>
+        </div>
+        <!-- /header -->
+
+        <div data-role="content">
+            <a id="btnReserve" href="#reservePage" data-role="button">帮订餐</a>
+            <a id="btnIndents" href="#indentsPage" data-role="button">看订单</a>
+        </div>
+        <!-- /content -->
+    </div>
+    <!-- /page -->
+
+    <!-- 订餐页面-->
+    <div data-role="page" id="reservePage">
+        <div data-role="header">
+            <a href="index.html" data-icon="arrow-l">Back</a>
+            <h2>订餐</h2>
+        </div>
+        <div data-role="content">
+            <label for="basic">选人</label>
+            <input type="text" name="name" id="inputUsername" value="" readonly="true" />
+            <a id="btnUsername" href="#userPage" data-role="button">选人</a>
+
+            <label for="basic">餐厅</label>
+            <input type="text" name="name" id="inputRestaurant" value="" readonly="true" />
+            <a href="#restaurantsPage" id="btnRestaurant" data-role="button">选餐厅</a>
+
+            <label for="basic">套餐</label>
+            <input type="text" name="name" id="inputFoods" value="" readonly="true" />
+            <a href="#foodsPage" id="btnFoods" data-role="button">选套餐</a>
+            <a href="#index" data-role="button" id="reservePageOK">确认</a>
+        </div>
+    </div>
+
+    <!--选客户页面  -->
+    <div data-role="page" id="userPage">
+        <div data-role="header">
+            <a href="#reservePage" data-icon="arrow-l">Back</a>
+            <h2>选人</h2>
+        </div>
+        <div data-role="content">
+            <ul id="userpageList" data-role="listview" class="ui-listview">
+            </ul>
+        </div>
+    </div>
+
+    <!--餐厅选择页面 -->
+    <div data-role="page" id="restaurantsPage">
+        <div data-role="header">
+            <a href="#reservePage" data-icon="arrow-l">Back</a>
+            <h2>选择餐厅</h2>
+        </div>
+        <div data-role="content">
+            <ul id="restaurantList" data-role="listview" class="ui-listview">
+            </ul>
+        </div>
+    </div>
+
+    <!--套餐选择页面  -->
+    <div data-role="page" id="foodsPage">
+        <div data-role="header">
+            <a href="#reservePage" data-icon="arrow-l">Back</a>
+            <h2>选套餐</h2>
+        </div>
+        <div data-role="content">
+            <ul id="foodList" data-role="listview" class="ui-listview">
+            </ul>
+        </div>
+    </div>
+
+
+    <!--订单显示  -->
+    <div data-role="page" id="indentsPage">
+        <div data-role="header">
+            <a href="#index" data-icon="arrow-l">Back</a>
+            <h2>订单显示</h2>
+        </div>
+        <div data-role="content">
+            <ul id="indentsList" data-role="listview">
+            </ul>
+        </div>
+        <div data-role="footer">
+            <h4 id="identsfooter"></h4>
+        </div>
+    </div>
+</body>
+</html>
